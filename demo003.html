@@ -28,7 +28,7 @@
             Text:
             <input type="text" id="txtOptText" value="Firefox"> value:
             <input type="text" id="txtOptValue" value="ff"> &nbsp;
-            <input type="button" value="Add New Item" ng-click="model.addOption()" id="btnAddOpt" />
+            <input type="button" value="Add New Item" id="btnAddOpt" />
         </div>
         <br>
         <pre id="dvDebug" class="debug">
@@ -49,39 +49,33 @@
                     value: "chrome"
                 }];
                 self.result = self.options[0];
-                self.addOption = function() {
-                    self.options.push({
-                        "text": $("txtOptText").val(),
-                        "value": $("txtOptValue").val()
-                    });
-                };
             }
             vm = new myViewModel();
             $scope.model = vm;
         });
 
-    // $("#btnAddOpt").click(function() {
-    //     var scope = $(this).scope();
-    //     //方法1: 傳入指令字串給$apply()執行
-    //     // scope.$apply("model.options.push({text:'Chrome',value:'chrome'})");
+    $("#btnAddOpt").click(function() {
+        var scope = $(this).scope();
+        //方法1: 傳入指令字串給$apply()執行
+        // scope.$apply("model.options.push({text:'Chrome',value:'chrome'})");
 
-    //     //方法2: 利用$apply()執行函式
-    //     scope.$apply(function() {
-    //         scope.model.options.push({
-    //             "text": $("#txtOptText").val(),
-    //             "value": $("#txtOptValue").val()
-    //         });
-    //     });
+        //方法2: 利用$apply()執行函式
+        scope.$apply(function() {
+            scope.model.options.push({
+                "text": $("#txtOptText").val(),
+                "value": $("#txtOptValue").val()
+            });
+        });
 
-    //     //方法3: 執行完畢呼叫$apply()[不帶參數]
-    //     // scope.model.options.push({
-    //     //     text: "Safari",
-    //     //     value: "safari"
-    //     // });
-    //     // scope.$apply();
-    //     // 
-    //     $("#dvDebug").text(JSON.stringify(scope.model.options));
-    // });
+        //方法3: 執行完畢呼叫$apply()[不帶參數]
+        // scope.model.options.push({
+        //     text: "Safari",
+        //     value: "safari"
+        // });
+        // scope.$apply();
+        // 
+        $("#dvDebug").text(JSON.stringify(scope.model.options));
+    });
     </script>
 </body>
 
