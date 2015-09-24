@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html ng-app="sampleApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>NG demo 003 - 動態新增下拉選單選項</title>
+</head>
+<style>
+.content {
+    margin-top: 10px;
+}
+.debug{
+    background-color:gray;
+}
+</style>
+
+<body>
+    <div ng-controller="mainCtrl">
+        <select ng-options="item.text for item in model.options" ng-model="model.result">
+        </select>
+        <br /> Result = <span ng-bind="model.result.value"></span>
+        <br />
+        <div calss="content">
+            Text:
+            <input type="text" id="txtOptText"> value:
+            <input type="text" id="txtOptValue"> &nbsp;
+            <input type="button" value="Add New Item" ng-click="model.addOption()" id="btnAddOpt" />
+        </div>
+        <br>
+        <pre id="dvDebug" class="debug">
+        </pre>
+        
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js" type="text/javascript"></script>
+    <script>
+    var vm = null;
+    angular.module("sampleApp", [])
+        .controller("mainCtrl", function($scope) {
+            function myViewModel() {
+                var self = this;
+                self.options = [{
+                    text: "IE",
+                    value: "ie"
+                }, {
+                    text: "Fire",
+                    value: "ff"
+                }];
+                self.result = self.options[0];
+                self.addOption = function() {
+                    self.options.push({
+                        "text": $("txtOptText").val(),
+                        "value": $("txtOptValue").val()
+                    });
+                };
+            }
+            vm = new myViewModel();
+            $scope.model = vm;
+        });
+
+    $("#btnAddOpt").click(function() {
+        var scope = $(this).scope();
+        //方法1: 傳入指令字串給$apply()執行
+        scope.$apply("model.options.push({text:'Chrome',value:'chrome'})");
+        //方法2: 利用$apply()執行函式
+        // scope.$apply(function() {
+        //     scope.model.options.push({
+        //         "text": $("#txtOptText").val(),
+        //         "value": $("#txtOptValue").val()
+        //     });
+        // });
+        //方法3: 執行完畢呼叫$apply()[不帶參數]
+        // scope.model.options.push({
+        //     text: "Safari",
+        //     value: "safari"
+        // });
+        // scope.$apply();
+        $("#dvDebug").text(JSON.stringify(scope.model.options));
+    });
+    </script>
+</body>
+
+</html>
