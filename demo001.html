@@ -24,7 +24,11 @@
                 var self = this;
                 self.firstName = "Allen";
                 self.lastName = "Yu";
+                var c = 1;
                 self.fullName = function() {
+                    window.console && console.log(
+                        "fullName() calculated(" + (c++) + "): " +
+                        self.firstName + " " + self.lastName);
                     return self.firstName + " " + self.lastName;
                 };
             }
