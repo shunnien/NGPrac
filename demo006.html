@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html ng-app="sampleApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>NG demo 006 陣列元素的新增/移除事件</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js" type="text/javascript"></script>
+    <style>
+    table {
+        width: 400px
+    }
+    
+    td,
+    th {
+        border: 1px solid gray;
+        text-align: center
+    }
+    
+    a.btn {
+        text-decoration: underline;
+        cursor: pointer;
+        color: blue;
+    }
+    
+    tr.new {
+        color: brown;
+    }
+    </style>
+</head>
+
+<body>
+    <div ng-controller="mainCtrl">
+        <input type="button" value="新增User" ng-click="model.addUser()" /> 共 <span>{{ model.users.length }}</span> 筆， 合計 <span>{{ model.calcTotalScore() | number:0 }}</span> 分
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>姓名</th>
+                    <th>積分</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in model.users" ng-class="user.addFlag ? 'new': ''" anim-hide="user.removeFlag" anim-hide-done="model.removeUser()">
+                    <td><span>{{ user.id }}</span>
+                    </td>
+                    <td><span>{{ user.name }}</span>
+                    </td>
+                    <td><span style='text-align: right'>{{ user.score }}</span>
+                    </td>
+                    <td><a ng-click="model.markUserRemoved(user)" class="btn">移除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+    angular.module("sampleApp", [])
+        .directive("animHide", function() 
+        {
+            return function(scope, element, attrs) 
+            {
+                scope.$watch(attrs["animHide"], function(newValue, oldValue) 
+                {
+                    if (newValue === true) 
+                    {
+                        element.css("background-color", "red")
+                            .animate({opacity: 0.2}, 500, function() 
+                            {
+                                scope.$parent.$apply(attrs["animHideDone"]);
+                            });
+                    }
+                });
+            };
+        })
+        .controller("mainCtrl", function($scope) {
+
+            //很簡單的User資料物件
+            function UserViewModel(id, name, score) {
+                var self = this;
+                self.id = id;
+                self.name = name;
+                self.score = score;
+                self.removeFlag = false;
+                self.addFlag = false;
+            }
+
+            function myViewModel() {
+                var self = this;
+                self.users = [];
+                self.userToRemove = null;
+                self.markUserRemoved = function(user) {
+                    user.removeFlag = true;
+                    self.userToRemove = user;
+                };
+
+                self.removeUser = function() {
+                    self.users.splice(self.users.indexOf(self.userToRemove), 1);
+                };
+
+                var c = 3;
+                self.addUser = function() {
+                    var now = new Date(); //用時間產生隨機屬性值
+                    var user = new UserViewModel(
+                        "M" + c++,
+                        "P" + "-" + now.getSeconds() * now.getMilliseconds(),
+                        now.getMilliseconds());
+
+                    // 將現有 user.addFlag 清除
+                    angular.forEach(self.users, function(u, i) {
+                        u.addFlag = false;
+                    });
+                    user.addFlag = true;
+                    self.users.push(user);
+                };
+
+                self.calcTotalScore = function() {
+                    var sum = 0;
+                    $.each(self.users, function(i, user) {
+                        sum += user.score;
+                    });
+                    return sum;
+                };
+            }
+            vm = new myViewModel();
+            vm.users.push(new UserViewModel("M1", "Allen", 100));
+            vm.users.push(new UserViewModel("M2", "ShunNien", 65535));
+            $scope.model = vm;
+
+        });
+    </script>
+</body>
+
+</html>
