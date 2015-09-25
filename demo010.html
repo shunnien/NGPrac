@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="sampleApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>NG demo 010 - ng-switch範例</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js" type="text/javascript"></script>
+    <style>
+    .sw > div {
+        padding: 6px;
+        margin: 6px;
+    }
+    </style>
+</head>
+
+<body>
+    <div ng-controller="mainCtrl">
+        <select ng-model="model.view">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+            <option>D</option>
+        </select>
+        <p>propA = {{propA}} </p>
+        <p>model.propB = {{model.propB}}</p>
+        <div ng-switch="model.view" class="sw">
+            <div ng-switch-when="A">
+                View A / propA={{propA}} propB={{model.propB}}
+            </div>
+            <div ng-switch-when="B">
+                View B /
+                <br /> propA
+                <input ng-model="propA" />
+                <br /> propB
+                <input ng-model="model.propB" />
+            </div>
+            <div ng-switch-default>
+                View C
+            </div>
+        </div>
+    </div>
+    <script>
+    angular.module("sampleApp", [])
+        .controller('mainCtrl', ['$scope', function ($scope) {
+            function myViewModel() {
+                var self = this;
+                self.view = "A";
+                self.propB = "Boo";
+            }
+            $scope.propA = "Foo";
+            $scope.model = new myViewModel();
+        }]);
+    </script>
+    <hr>
+    <a href="index.html">Return Index</a>
+</body>
+
+</html>
