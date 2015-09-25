@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app="sampleApp">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js" type="text/javascript"></script>
+</head>
+<body>
+<div ng-controller="mainCtrl">
+    <input type="text" ng-model="model.firstName" />
+    <input type="text" ng-model="model.lastName" />
+    <div ng-bind="model.fullName()"></div>
+    <div>
+        <input type="button" value="$eval()" data-action="runEval" />
+        <input type="button" value="$eval()-firstName" data-action="runEval,model.firstName" />
+        <input type="button" value="$eval()-fullName" data-action="runEval,model.fullName()" />
+        <input type="button" value="$digest" data-action="runDigest" />
+        <input type="button" value="$apply" data-action="runApply" />
+        <input type="button" value="ng-click" ng-click="doNothing()" &lt;/div>
+    </div>
+    <script>
+    function log(m) {
+        window.console && console.log(m);
+    }
+    var scope = null;
+
+    angular.module("sampleApp", [])
+        .controller("mainCtrl", function($scope) {
+            function myViewModel() {
+                var self = this;
+                self.firstName = "Allen";
+                self.lastName = "Yu";
+                var c = 0;
+                self.fullName = function() {
+                    var fn = self.firstName + " " + self.lastName;
+                    log("fullName() calculated(" + (c++) + "): " + fn);
+                    return fn;
+                };
+            }
+            $scope.doNothing = function() {
+                log("ng-clicked");
+            };
+            $scope.model = new myViewModel();
+            scope = $scope;
+        });
+
+    $(":button").click(function() {
+        var action = $(this).data("action");
+        if (!action) return; //for ng-click button
+        if (action === "runDigest") {
+            log("Run $digest");
+            scope.$digest();
+        } else if (action === "runApply") {
+            log("Run $apply");
+            scope.$apply();
+        } else if (action === "runEval") {
+            log("Run $eval()");
+            scope.$eval();
+        } else {
+            expr = action.split(',')[1];
+            log("Run $eval(" + expr + ")");
+            scope.$eval(expr);
+        }
+
+    });
+    </script>
+</body>
+</html>
