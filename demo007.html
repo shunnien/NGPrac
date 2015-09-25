@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app="sampleApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>NG demo 007 visible, disable, css 與屬性連動</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js" type="text/javascript"></script>
+</head>
+<style>
+    .urgent{
+        backgrond-color:##FFCCCC;
+        border: 1px solid red;
+    }
+</style>
+<body>
+    <div ng-controller="mainCtrl">
+        <input type="checkbox" ng-model="model.done" />
+        <input type="text" style="width: 200px;" ng-disabled="model.done" ng-model="model.task" ng-class="task.indexOf('a') > -1 ? 'urgent' : ''" />
+        <span ng-show="model.done">完成!</span>
+        <span ng-hide="!model.done">完成!</span>
+    </div>
+
+    <script>
+    angular.module("sampleApp",[])
+    .controller('mainCtrl', ['$scope', function ($scope) 
+    {
+        function myViewModel(){
+            var self = this;
+            self.task="";
+            self.done = false;
+        }    
+        $scope.model = new myViewModel();
+    }]);
+    </script>
+    <hr>
+    <a href="index.html">Return Index</a>
+</body>
+</html>
