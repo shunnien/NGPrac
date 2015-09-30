@@ -12,13 +12,14 @@
 <body>
     <div ng-controller="mainCtrl" class="container">
         <dl>
+            <!-- ver 1.3+支援updateOn設定 -->
             <dt>Name</dt>
             <dd>
-                <input ng-model="model.name" />
+                <input ng-model="model.name" ng-model-options="{ updateOn: 'blur'}"/>
             </dd>
             <dt>Score</dt>
             <dd>
-                <input ng-model="model.score" />
+                <input ng-model="model.score" ng-model-options="{ updateOn: 'default', debounce:{default: 1000}}" />
             </dd>
         </dl>
         <hr />
@@ -42,8 +43,7 @@
                 console.log("name=" + newValue);
             });
 
-            $scope.$watch(function(scope) 
-            {
+            $scope.$watch(function(scope) {
                 return scope.model.score;
             }, function(newValue, oldValue) {
                 console.log("score: " + oldValue + "->" + newValue);
