@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>NG demo 016 - ui-grid與Isolated Scope偵察技巧</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js" type="text/javascript"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-touch.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-animate.js"></script>
@@ -65,7 +66,10 @@
         }]);
 
         // 方法1：自製debug Filter
-        app.filter("debug", function() { return function(value) { debugger; }; });
+        // app.filter("debug", function() { return function(value) { debugger; }; });
+        
+        // 方法2：angular.element().scope()
+        // 使用方法記得引用 jquery 替換 NG 內建的簡易 jquery ，這樣功能比較完善
         </script>
         <hr>
         <a href="index.html">Return Index</a>
