@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html ng-app="sampleApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>NG demo 017 - DOM 重複使用測試 1</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="//ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+    .list {
+        width: 300px;
+    }
+    
+    .list td {
+        border: 1px solid gray;
+    }
+    
+    input {
+        display: block;
+        margin-top: 6px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div ng-controller="mainCtrl as vm">
+            <table class="list">
+                <tr ng-repeat="player in vm.players">
+                    <td ng-bind="player.id"></td>
+                    <td ng-bind="player.name"></td>
+                    <td ng-bind="player.score"></td>
+                    <td ng-bind="player.$$hashKey"></td>
+                </tr>
+            </table>
+            <input type="button" value="第二筆染色(by jQuery)" ng-click="vm.color2ndRow()" />
+            <input type="button" value="變更第二筆分數" ng-click="vm.changeScore()" />
+            <input type="button" value="第二筆移至最後" ng-click="vm.move2ndRow()" />
+            <input type="button" value="依分數排序" ng-click="vm.sortArray()" />
+            <input type="button" value="重新產生陣列" ng-click="vm.updatePlayers()" />
+        </div>
+        <script>
+        function Player(id, name, score) {
+            this.id = id;
+            this.name = name;
+            this.score = score;
+        }
+
+        function getPlayers() {
+            return [
+                new Player("A01", "Spider-Man", 100),
+                new Player("A02", "Iron Man", 64),
+                new Player("A03", "American Captain", 255),
+                new Player("A04", "Allen", 65535)
+            ];
+        }
+
+        function myViewModel($scope) {
+            var self = this;
+            self.players = getPlayers();
+            self.color2ndRow = function() {
+                $(".list tr:eq(1)").css("color", "red");
+            };
+            self.changeScore = function() {
+                self.players[1].score = 0; //修改第二筆分數
+            };
+            self.move2ndRow = function() {
+                var removed = self.players.splice(1, 1)[0];
+                self.players.push(removed); //移動第二筆至最後
+            };
+            self.sortArray = function() {
+                //依分數排序
+                self.players.sort(function(a, b) {
+                    return a.score > b.score;
+                })
+            };
+            self.updatePlayers = function() {
+                self.players = getPlayers();
+            };
+        }
+        var app = angular.module("sampleApp", []);
+        app.controller('mainCtrl', ['$scope', myViewModel]);
+        </script>
+        <hr>
+        <a href="index.html">Return Index</a>
+    </div>
+</body>
+
+</html>
