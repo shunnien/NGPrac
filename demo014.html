@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html ng-app="sampleApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>NG demo 014 - 訂閱屬性變更事件</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="//ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div ng-controller="mainCtrl" class="container">
+        <dl>
+            <dt>Name</dt>
+            <dd>
+                <input ng-model="model.name" />
+            </dd>
+            <dt>Score</dt>
+            <dd>
+                <input ng-model="model.score" />
+            </dd>
+        </dl>
+        <hr />
+        <pre class="debug">{{model | json}}</pre>
+    </div>
+    <script>
+    angular.module("sampleApp", [])
+        .controller('mainCtrl', ['$scope', function($scope) {
+
+            function myViewModel() {
+                var self = this;
+                self.name = "Allen";
+                self.score = 65525;
+            }
+
+            var vm = new myViewModel();
+            $scope.model = vm;
+
+            //透過$watch關注Scope內屬性的變化
+            $scope.$watch("model.name", function(newValue, oldValue) {
+                console.log("name=" + newValue);
+            });
+
+            $scope.$watch(function(scope) 
+            {
+                return scope.model.score;
+            }, function(newValue, oldValue) {
+                console.log("score: " + oldValue + "->" + newValue);
+            });
+        }]);
+    </script>
+    <hr>
+    <a href="index.html">Return Index</a>
+</body>
+
+</html>
