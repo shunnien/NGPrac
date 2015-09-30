@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html ng-app="sampleApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>NG demo 016 - ui-grid與Isolated Scope偵察技巧</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js" type="text/javascript"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-touch.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-animate.js"></script>
+    <script src="//ui-grid.info/release/ui-grid-stable.js"></script>
+    <link rel="stylesheet" href="//ui-grid.info/release/ui-grid-stable.css" type="text/css">
+    <link rel="stylesheet" href="//ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <style>
+      .grid {
+        width: 320px;
+      }
+      .num {
+        color: green;
+        text-align: right;
+      }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div ng-controller="mainCtrl">
+            <div id="grid1" ui-grid="options" class="grid"></div>
+        </div>
+
+        <script>
+        var app = angular.module('sampleApp', ['ngTouch', 'ui.grid']);
+        app.controller('mainCtrl', ['$scope', function($scope) {
+            var myData = [{
+                id: "A01",
+                name: "Allen",
+                score: 32767
+            }, {
+                id: "A02",
+                name: "Yu",
+                score: 65535
+            }, {
+            	id:"A03",
+            	name: "Neil",
+            	score:100
+            }];
+            $scope.options = {
+                enableColumnMenu: false,
+                columnDefs: [{
+                    name: "id",
+                    field: "id",
+                    width: 100
+                }, {
+                    name: "name",
+                    field: "name",
+                    width: 100
+                }, {
+                    name: "Score",
+                    width: 100,
+                    cellTemplate: "<div class='num'>{{row.entity.score|number}}</div>"
+                }],
+                data: myData
+            };
+        }]);
+        </script>
+        <hr>
+        <a href="index.html">Return Index</a>
+    </div>
+</body>
+
+</html>
