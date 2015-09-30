@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html ng-app="sampleApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>NG demo 015 - 資料檢核</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="//ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <style>
+    form .ng-invalid.ng-dirty {
+        background-color: pink;
+    }
+    
+    form .ng-valid.ng-dirty {
+        background-color: lightgreen;
+    }
+    
+    .invld-hint {
+        color: red;
+    }
+    
+    .invld-hint span {
+        margin-right: 6px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div ng-controller="mainCtrl" class="container">
+            <form name="myForm">
+                <p>請輸入文字：
+                    <input type="text" name="text" ng-model="model.text" required />
+                    <span class="invld-hint" ng-show="myForm.text.$error.required">required</span>
+                </p>
+                <p>請輸入 Email：
+                    <input type="email" name="emailAddr" ng-model="model.emailAddr" required />
+                    <span class="invld-hint">
+            		<span ng-show="myForm.emailAddr.$error.email">Email type error</span>
+                    <span ng-show="myForm.emailAddr.$error.required">required</span>
+                    </span>
+                </p>
+                <p>請輸入 4-6 位英數字
+                    <input type="text" name="code" ng-model="model.code" ng-minlength="4" ng-maxlength="6" ng-pattern="model.codePattern" />
+                    <span class="invld-hint" ng-show="myForm.code.$error.pattern">須為 0-9, A-Z, a-z</span>
+                </p>
+                <hr>
+                <input class="btn btn-primary" type="submit" value="Send" ng-disabled="myForm.$invalid" />
+                <input class="btn btn-default" type="button" value="Debug" ng-click="model.debug()">
+            </form>
+            <hr />
+            <pre>輸入內容{{model | json}}</pre>
+            <div>表單狀態：
+                <p>是否為原始狀態，使用者尚未更動
+                    <br />$pristine={{myForm.$pristine}}</p>
+                <p>使用者是否有更動任何內容
+                    <br/>$dirty = {{myForm.$dirty}}</p>
+                <p>是否所有欄位都通過檢核
+                    <br/>$valid={{myForm.$valid}}</p>
+                <p>表單各欄位的檢核結果
+                    <br/>
+                    <pre>$error = {{myForm.$error | json}}</pre>
+                </p>
+            </div>
+        </div>
+        <script>
+        angular.module("sampleApp", [])
+            .controller('mainCtrl', ['$scope', function($scope) {
+
+                function myViewModel() {
+                    var self = this;
+                    self.text = "";
+                    self.emailAddr = "";
+                    self.code = "";
+                    self.codePattern = new RegExp("^[0-9a-zA-Z]*$");
+                }
+
+                var vm = new myViewModel();
+                $scope.model = vm;
+            }]);
+        </script>
+        <hr>
+        <a href="index.html">Return Index</a>
+    </div>
+</body>
+
+</html>
