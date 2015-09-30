@@ -48,7 +48,6 @@
                 </p>
                 <hr>
                 <input class="btn btn-primary" type="submit" value="Send" ng-disabled="myForm.$invalid" />
-                <input class="btn btn-default" type="button" value="Debug" ng-click="model.debug()">
             </form>
             <hr />
             <pre>輸入內容{{model | json}}</pre>
@@ -60,8 +59,9 @@
                 <p>是否所有欄位都通過檢核
                     <br/>$valid={{myForm.$valid}}</p>
                 <p>表單各欄位的檢核結果
-                    <br/>
-                    <pre>$error = {{myForm.$error | json}}</pre>
+                    <br/>$error = {{myForm.text.$error | json}},
+                    {{myForm.emailAddr.$error | json}},
+                    {{myForm.code.$error | json}}
                 </p>
             </div>
         </div>
