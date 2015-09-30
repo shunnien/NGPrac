@@ -28,7 +28,7 @@
     <div class="container">
         <div ng-controller="mainCtrl as vm">
             <table class="list">
-                <tr ng-repeat="player in vm.players">
+                <tr ng-repeat="player in vm.players track by player.id">
                     <td ng-bind="player.id"></td>
                     <td ng-bind="player.name"></td>
                     <td ng-bind="player.score"></td>
