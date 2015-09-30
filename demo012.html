@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html ng-app="sampleApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>NG demo 012 - Checked繫結</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js" type="text/javascript"></script>
+    <style>
+    section {
+        display: block;
+        color: white;
+        width: 86%;
+        background-color: gray;
+        padding: 20px;
+        margin: 20px;
+    }
+       
+    .content {
+        text-align: center;
+        font-size: 9pt;
+    }
+    
+    input {
+        font-size: 9pt;
+    }
+    
+    fieldset {
+        margin-top: 10px;
+        width: 250px;
+        padding: 5px;
+    }
+    
+    dt,
+    dd {
+        float: left;
+        width: 100px;
+        height: 20px;
+    }
+    </style>
+</head>
+
+<body>
+    <div ng-controller="mainCtrl" class="content">
+        <div>
+            連絡方式選擇:
+            <input type="radio" name="contactOption" value="phone" ng-model="model.contOption" /> 電話
+            <input type="radio" name="contactOption" value="email" ng-model="model.contOption" /> Email
+        </div>
+        <div>
+            (與下拉選單連動:
+            <select ng-model="model.contOption">
+                <option value="phone">電話</option>
+                <option value="email">Email</option>
+            </select>)
+        </div>
+        <div>
+            單一Checkbox:
+            <input type="checkbox" ng-model="model.singleCbx" />
+        </div>
+        <div>
+            多Checkbox對應陣列:
+            <input type="checkbox" check-list="model.cbxItems" value="PC" />PC
+            <input type="checkbox" check-list="model.cbxItems" value="NB" />NB
+            <input type="checkbox" check-list="model.cbxItems" value="Phone" />Phone
+        </div>
+        <section>
+            <fieldset>
+                <legend>物件屬性檢視</legend>
+                <dl>
+                    <dt>contOption屬性</dt>
+                    <dd ng-bind="model.contOption"></dd>
+                    <dt>singleCbx屬性</dt>
+                    <dd ng-bind="model.singleCbx"></dd>
+                    <dt>cbxItems屬性</dt>
+                    <dd>
+                        <div>
+                            {{ model.cbxItems.join(', ') }}
+                        </div>
+                    </dd>
+                </dl>
+            </fieldset>
+        </section>
+    </div>
+    <script>
+    angular.module("sampleApp", [])
+        .directive('checkList', [function() {
+            return {
+                scope: {
+                    list: '=checkList',
+                    value: '@'
+                },
+                link: function(scope, iElement, iAttrs) {
+                    var handler = function(setup) {
+                        var checked = iElement.prop('checked');
+                        var index = scope.list.indexOf(scope.value);
+
+                        if (checked && index == -1) {
+                            if (setup) iElement.prop('checked', false);
+                            else scope.list.push(scope.value);
+                        } else if (!checked && index != -1) {
+                            if (setup) iElement.prop('checked', true);
+                            else scope.list.splice(index, 1);
+                        }
+                    };
+
+                    var setupHandler = handler.bind(null, true);
+                    var changeHandler = handler.bind(null, false);
+
+                    iElement.on('change', function() {
+                        scope.$apply(changeHandler);
+                    });
+                    scope.$watch('list', setupHandler, true);
+
+                }
+            };
+        }])
+        .controller('mainCtrl', ['$scope', function($scope) {
+
+            function myViewModel() 
+            {
+                var self = this;
+
+                //Radio對應到Value值
+                self.contOption = "phone";
+
+                //單一Checkbox對應到true/false
+                self.singleCbx = true;
+
+                //多個Checkbox對應到Value值組成的字串陣列
+                self.cbxItems = ["NB"];
+            }
+
+            $scope.model = new myViewModel();
+        }]);
+    </script>
+    <hr>
+    <a href="index.html">Return Index</a>
+</body>
+
+</html>

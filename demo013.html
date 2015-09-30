@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html ng-app="sampleApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>NG demo 013 - 範本(Template)</title>
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script> -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js" type="text/javascript"></script>
+    <style>
+    .cont-block {
+        font-family: Segoe UI;
+        font-size: 10pt;
+        border: 1px solid gray;
+        padding: 5px;
+        width: 135px;
+        border-radius: 4px;
+        box-shadow: 5px 5px 10px #444;
+    }
+    
+    .memb-list .cont-block {
+        float: left;
+        margin-right: 15px;
+    }
+    
+    dt {
+        font-weight: bold;
+        color: purple;
+    }
+    
+    dd {
+        color: brown;
+    }
+    
+    br {
+        clear: both;
+    }
+    </style>
+</head>
+
+<body>
+    <div ng-controller="mainCtrl" class="content">
+        <select ng-model="model.selTmpl" ng-options="data for data in model.tmpls">
+        </select>
+        <h3>Leader</h3>
+        <div class='memb-list'>
+            <span ng-repeat="member in [model.leader,model.deputyLeader]">
+      			<span ng-include="model.selTmpl" src="'/contactTmpl.html'" ng-show="member" class='cont-block'></span>
+            </span>
+        </div>
+        <br />
+        <h3>Members</h3>
+        <div class='memb-list'>
+            <span class='cont-block' ng-repeat="member in model.members" ng-include="model.selTmpl" src="'/contactTmpl.html'"></span>
+        </div>
+    </div>
+    <script>
+    angular.module("sampleApp", [])
+        .controller('mainCtrl', ['$scope', function($scope) {
+
+            function Contact(n, p) {
+                this.name = n;
+                this.phone = p;
+            }
+
+            function myViewModel() {
+                var self = this;
+                self.leader = new Contact("American Captain", "0800123456");
+                self.deputyLeader = new Contact("Nike", "0800111222");
+
+                self.tmpls = ["/templates/lab013at1.html", "/templates/lab013at2.html"];
+                self.selTmpl = "/templates/lab013at1.html";
+                self.members = [];
+                self.members.push(new Contact("Iron Man", "0800123789"));
+                self.members.push(new Contact("Spider Man", "0800456789"));
+                self.members.push(new Contact("Hulk", "0800789123"));
+            }
+
+            $scope.model = new myViewModel();
+        }]);
+    </script>
+    <hr>
+    <a href="index.html">Return Index</a>
+</body>
+
+</html>
+<script type="text/ng-template" id="/contactTmpl.html">
+    <dl>
+        <dt>Name</dt>
+        <dd>{{ member.name }}</dd>
+        <dt>Phone</dt>
+        <dd>{{ member.phone }}</dd>
+    </dl>
+</script>
