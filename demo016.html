@@ -63,6 +63,9 @@
                 data: myData
             };
         }]);
+
+        // 方法1：自製debug Filter
+        app.filter("debug", function() { return function(value) { debugger; }; });
         </script>
         <hr>
         <a href="index.html">Return Index</a>
