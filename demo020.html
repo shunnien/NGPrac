@@ -21,16 +21,18 @@
                 <button ng-click="vm.Refresh()">Refresh</button>
             </div>
             <hr />
-        	<div server-time time="vm.Time" trigger="vm.Trigger"></div>
+        	<!-- <div server-time time="vm.Time" trigger="vm.Trigger"></div> -->
+        	<div server-time time="vm.Time"></div>
         </div>
 
         <script>
         function myViewModel($scope) {
             var self = this;
             self.Time = null;
-            self.Trigger = 0;
+            // self.Trigger = 0;
             self.Refresh = function() {
-                self.Trigger++;
+                // self.Trigger++;
+                $scope.$broadcast("refresh-svr-time");
             }
         }
         // myViewModel.$injector = ["$scope"];
@@ -39,7 +41,7 @@
             return {
                 scope: {
                     time: "=",
-                    trigger: "="
+                    // trigger: "="
                 },
                 link: function(scope, element, attr) {
                     function refresh() {
@@ -47,9 +49,13 @@
                             scope.time = headers("date");
                         });
                     }
-                    scope.$watch("trigger", function() {
-                        refresh();
+                    refresh();
+                    scope.$on("refresh-svr-time", function(){
+                    	refresh();
                     });
+                    // scope.$watch("trigger", function() {
+                    //     refresh();
+                    // });
                 },
                 template: "<pre>Server Time : {{time}}</pre>"
             };
