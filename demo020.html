@@ -16,23 +16,23 @@
 <body>
     <div class="container">
         <div ng-controller="mainCtrl as vm">
-			<div>
-				<span ng-bind="vm.Time"></span>
-				<button ng-click="vm.Refresh()">Refresh</button>
-			</div>
+            <div>
+                <span ng-bind="vm.Time"></span>
+                <button ng-click="vm.Refresh()">Refresh</button>
+            </div>
         </div>
-		<hr />
-		<div server-time time="vm.Time" trigger="vm.Trigger"></div>
+        <hr />
+        <div server-time time="vm.Time" trigger="vm.Trigger"></div>
         <script>
         function myViewModel($scope) {
             var self = this;
             self.Time = null;
             self.Trigger = 0;
-            self.Refresh = function () {
+            self.Refresh = function() {
                 self.Trigger++;
             }
         }
-        // myViewModel.$injector = ["$scope"];
+        myViewModel.$injector = ["$scope"];
 
         function serverTime($http) {
             return {
@@ -40,27 +40,27 @@
                     time: "=",
                     trigger: "="
                 },
-                link: function (scope, element, attr) {
-                    function refresh() 
-                    {
-                        $http.get("/").success(function (data, status, headers) {
+                link: function(scope, element, attr) {
+                    function refresh() {
+                        $http.get("/").success(function(data, status, headers) {
                             scope.time = headers("date");
                         });
                     }
-                    scope.$watch("trigger", function () {
+                    scope.$watch("trigger", function() {
                         refresh();
                     });
                 },
                 template: "<pre>Server Time : {{time}}</pre>"
             };
         }
-        // serverTime.$inject = ["$http"];
+        serverTime.$inject = ["$http"];
 
-        angular.module("sampleApp",[])
-        	.controller('mainCtrl', ["$scope",myViewModel])
-        	.directive('serverTime', ["$http",serverTime]);
+        angular.module("sampleApp", [])
+            .controller('mainCtrl', myViewModel)
+            .directive('serverTime', serverTime);
+        // .controller('mainCtrl', ["$scope",myViewModel])
+        // .directive('serverTime', ["$http",serverTime]);
         </script>
-
         <hr>
         <a href="index.html">Return Index</a>
     </div>
