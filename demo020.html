@@ -22,37 +22,44 @@
             </div>
             <hr />
         	<!-- <div server-time time="vm.Time" trigger="vm.Trigger"></div> -->
-        	<div server-time time="vm.Time"></div>
+        	<!-- <div server-time time="vm.Time"></div> -->
+        	<div server-time time="vm.Time" api-proxy="vm.ApiProxy"></div>
         </div>
 
         <script>
         function myViewModel($scope) {
             var self = this;
             self.Time = null;
+            self.ApiProxy;
             // self.Trigger = 0;
             self.Refresh = function() {
                 // self.Trigger++;
-                $scope.$broadcast("refresh-svr-time");
+                //$scope.$broadcast("refresh-svr-time");
+                self.ApiProxy && self.ApiProxy.Refresh && self.ApiProxy.Refresh();
             }
         }
-        // myViewModel.$injector = ["$scope"];
 
         function serverTime($http) {
             return {
                 scope: {
                     time: "=",
                     // trigger: "="
+                    apiProxy: "="
                 },
-                link: function(scope, element, attr) {
+                link: function(scope, element, attr) 
+                {
                     function refresh() {
                         $http.get("/").success(function(data, status, headers) {
                             scope.time = headers("date");
                         });
                     }
                     refresh();
-                    scope.$on("refresh-svr-time", function(){
-                    	refresh();
-                    });
+                    scope.apiProxy = { Refresh: refresh };
+                    
+                    // scope.$on("refresh-svr-time", function(){
+                    // 	refresh();
+                    // });
+                    
                     // scope.$watch("trigger", function() {
                     //     refresh();
                     // });
@@ -60,13 +67,11 @@
                 template: "<pre>Server Time : {{time}}</pre>"
             };
         }
-        // serverTime.$inject = ["$http"];
 
         angular.module("sampleApp", [])
             .controller('mainCtrl', ["$scope", myViewModel])
             .directive('serverTime', ["$http", serverTime]);
-        // .controller('mainCtrl', myViewModel)
-        // .directive('serverTime', serverTime);
+        
         </script>
         <hr>
         <a href="index.html">Return Index</a>
