@@ -20,9 +20,10 @@
                 <span ng-bind="vm.Time"></span>
                 <button ng-click="vm.Refresh()">Refresh</button>
             </div>
+            <hr />
+        	<div server-time time="vm.Time" trigger="vm.Trigger"></div>
         </div>
-        <hr />
-        <div server-time time="vm.Time" trigger="vm.Trigger"></div>
+
         <script>
         function myViewModel($scope) {
             var self = this;
@@ -32,7 +33,7 @@
                 self.Trigger++;
             }
         }
-        myViewModel.$injector = ["$scope"];
+        // myViewModel.$injector = ["$scope"];
 
         function serverTime($http) {
             return {
@@ -53,13 +54,13 @@
                 template: "<pre>Server Time : {{time}}</pre>"
             };
         }
-        serverTime.$inject = ["$http"];
+        // serverTime.$inject = ["$http"];
 
         angular.module("sampleApp", [])
-            .controller('mainCtrl', myViewModel)
-            .directive('serverTime', serverTime);
-        // .controller('mainCtrl', ["$scope",myViewModel])
-        // .directive('serverTime', ["$http",serverTime]);
+            .controller('mainCtrl', ["$scope", myViewModel])
+            .directive('serverTime', ["$http", serverTime]);
+        // .controller('mainCtrl', myViewModel)
+        // .directive('serverTime', serverTime);
         </script>
         <hr>
         <a href="index.html">Return Index</a>
