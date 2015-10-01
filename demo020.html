@@ -21,11 +21,10 @@
                 <button ng-click="vm.Refresh()">Refresh</button>
             </div>
             <hr />
-        	<!-- <div server-time time="vm.Time" trigger="vm.Trigger"></div> -->
-        	<!-- <div server-time time="vm.Time"></div> -->
-        	<div server-time time="vm.Time" api-proxy="vm.ApiProxy"></div>
+            <!-- <div server-time time="vm.Time" trigger="vm.Trigger"></div> -->
+            <!-- <div server-time time="vm.Time"></div> -->
+            <div server-time time="vm.Time" api-proxy="vm.ApiProxy"></div>
         </div>
-
         <script>
         function myViewModel($scope) {
             var self = this;
@@ -46,20 +45,21 @@
                     // trigger: "="
                     apiProxy: "="
                 },
-                link: function(scope, element, attr) 
-                {
+                link: function(scope, element, attr) {
                     function refresh() {
                         $http.get("/").success(function(data, status, headers) {
                             scope.time = headers("date");
                         });
                     }
                     refresh();
-                    scope.apiProxy = { Refresh: refresh };
-                    
+                    scope.apiProxy = {
+                        Refresh: refresh
+                    };
+
                     // scope.$on("refresh-svr-time", function(){
                     // 	refresh();
                     // });
-                    
+
                     // scope.$watch("trigger", function() {
                     //     refresh();
                     // });
@@ -71,7 +71,6 @@
         angular.module("sampleApp", [])
             .controller('mainCtrl', ["$scope", myViewModel])
             .directive('serverTime', ["$http", serverTime]);
-        
         </script>
         <hr>
         <a href="index.html">Return Index</a>
