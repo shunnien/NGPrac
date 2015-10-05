@@ -32,16 +32,23 @@
                 <button class="btn btn-primary" ng-click="add()">Add</button>
             </div>
             <h3>共有 {{ model.friends.length }} 位朋友</h3>
-            <!-- 原地編輯(In-place editing) -->
             <div class="alert alert-info" ng-repeat="item in model.friends">
                 <button type="button" ng-click="remove($index)" class="close">&times;</button>
-                <div ng-hide="item.editing" ng-dblclick="item.editing=true;" >
+                <!-- <button type="button" ng-show="$last" ng-click="" class="close">+</button> -->
+                <div ng-hide="item.editing" ng-dblclick="item.editing=true;">
                     {{ item.name }} <span class="badge">{{ item.age }} 歲</span>
                 </div>
-                <div ng-show = "item.editing">
+                <div ng-show="item.editing">
                     <input type="text" class="input-sm" ng-model="item.name">
                     <input type="text" class="input-sm" ng-model="item.age">
                     <button class="btn btn-warning btn-sm" ng-click="item.editing=false;">Update</button>
+                </div>
+            </div>
+            <div class="alert alert-info">
+                <div>
+                    <input type="text" class="input-sm" ng-model="model.pName">
+                    <input type="number" class="input-sm" ng-model="model.pAge">
+                    <button class="btn btn-warning btn-sm" ng-click="add()">Add</button>
                 </div>
             </div>
         </div>
@@ -58,15 +65,15 @@ angular.module("sampleApp", [])
             self.friends = [{
                 name: "Allen",
                 age: "18",
-                editing:false
+                editing: false
             }, {
                 name: "Neil",
                 age: "16",
-				editing:false
+                editing: false
             }, {
                 name: "Jeff",
                 age: "30",
-                editing:false
+                editing: false
             }];
             self.pName;
             self.pAge;
@@ -81,7 +88,7 @@ angular.module("sampleApp", [])
             $scope.model.friends.push({
                 name: $scope.model.pName,
                 age: $scope.model.pAge,
-                editing:false
+                editing: false
             });
             Clear();
         };
