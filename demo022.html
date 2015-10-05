@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="NG demo 022 - ngRepeat">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NG demo 022 - ngRepeat</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    
+    <style>
+    .container {
+        margin-top: 20px;
+    }
+    
+    .friend-first-true {
+        color: red;
+    }
+    
+    .friend-middle-true {
+        color: blue;
+    }
+    
+    .friend-last-true {
+        color: green;
+    }
+    
+    .friend-even-true {
+        color: blue;
+    }
+    
+    .friend-odd-true {
+        color: green;
+    }
+    </style>
+</head>
+
+<body ng-app="sampleApp">
+    <div class="container">
+        <div ng-controller="mainCtrl as vm" class="well span6">
+            <label>Search:</label>
+            <input type="text" ng-model="model.search">
+            <hr>
+            <h5 ng-hide="filteredFriends.length = 0 ">共 {{filteredFriends.length}} 筆</h5>
+            <!-- <h5 ng-show="filtered.length > 0">共 {{filtered.length}}筆</h5> -->
+            <ul>
+                <li ng-repeat="friend in filteredFriends =  (model.friends |filter:model.search)">
+                    <!-- $index 來輸出序號 -->
+                    [{{$index+1}}] {{friend.name}}({{friend.age}})
+                    <span class="friend-even-true" ng-show="$even">[Even]</span>
+                    <span class="friend-odd-true" ng-show="$odd">[Odd]</span>
+                    <span class="friend-first-{{$first}}" ng-show="$first">[第一筆]</span>
+					<span class="friend-middle-{{$middle}}" ng-show="$middle">[中間的]</span>
+					<span class="friend-last-{{$last}}" ng-show="$last">[最後一筆]</span>
+                </li>
+            </ul>
+        </div>
+        <div class="well span6" ng-controller="mainCtrl as vm2">
+            <h2 ng-repeat-start="friend in model.friends" ng-class="{true:'friend-odd-true', false:'friend-even-true'}[$odd]">{{friend.name}} </h2>
+            <div class="alert alert-info">
+                {{friend.name}} <span class="badge badge-important">{{friend.age}} 歲</span>
+            </div>
+            <div class="progress progress-striped active " ng-repeat-end>
+                <div class="progress-bar" style="width: {{friend.age}}%;"></div>
+            </div>
+        </div>
+        <hr>
+        <a href="index.html">Return Index</a>
+    </div>
+</body>
+<script type="text/javascript">
+angular.module("sampleApp", [])
+    .controller('mainCtrl', ['$scope', function($scope) {
+
+        function ViewModel() {
+            var self = this;
+            self.search = "";
+
+            self.friends = [{
+                name: 'Allen',
+                age: 18
+            }, {
+                name: 'Neil',
+                age: 16
+            }, {
+                name: 'Jeff',
+                age: 30
+            }, {
+                name: 'Kevin',
+                age: 31
+            }];
+
+            self.sum = function() {
+                return self.friends.length;
+            };
+        }
+
+        $scope.model = new ViewModel();
+    }]);
+</script>
+
+</html>
