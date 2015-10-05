@@ -24,7 +24,6 @@
                     <label class="control-label" for="name">Name:</label>
                     <input type="text" id="name" placeholder="Name" ng-model="model.pName" class="form-control">
                 </div>
-                
                 <div class="form-group ">
                     <label class="control-label" for="age">Age:</label>
                     <input type="number" id="age" placeholder="age" ng-model="model.pAge" class="form-control">
@@ -33,9 +32,17 @@
                 <button class="btn btn-primary" ng-click="add()">Add</button>
             </div>
             <h3>共有 {{ model.friends.length }} 位朋友</h3>
-            <div class="alert alert-info" ng-repeat="friend in model.friends">
-            	<button type="button" data-ng-click="remove($index)" class="close">&times;</button>
-                {{ friend.name }} <span class="badge badge-important">{{ friend.age }} 歲</span>
+            <!-- 原地編輯(In-place editing) -->
+            <div class="alert alert-info" ng-repeat="item in model.friends">
+                <button type="button" ng-click="remove($index)" class="close">&times;</button>
+                <div ng-hide="item.editing" ng-dblclick="item.editing=true;" >
+                    {{ item.name }} <span class="badge">{{ item.age }} 歲</span>
+                </div>
+                <div ng-show = "item.editing">
+                    <input type="text" class="input-sm" ng-model="item.name">
+                    <input type="text" class="input-sm" ng-model="item.age">
+                    <button class="btn btn-warning btn-sm" ng-click="item.editing=false;">Update</button>
+                </div>
             </div>
         </div>
         <hr>
@@ -50,18 +57,22 @@ angular.module("sampleApp", [])
 
             self.friends = [{
                 name: "Allen",
-                age: "18"
+                age: "18",
+                editing:false
             }, {
                 name: "Neil",
-                age: "16"
+                age: "16",
+				editing:false
             }, {
                 name: "Jeff",
-                age: "30"
+                age: "30",
+                editing:false
             }];
             self.pName;
             self.pAge;
         }
         $scope.model = new ViewModel();
+
         function Clear() {
             $scope.model.pName = null;
             $scope.model.pAge = null;
@@ -70,12 +81,13 @@ angular.module("sampleApp", [])
             $scope.model.friends.push({
                 name: $scope.model.pName,
                 age: $scope.model.pAge,
+                editing:false
             });
             Clear();
         };
 
-        $scope.remove = function(idx){
-        	$scope.model.friends.splice(idx,1);
+        $scope.remove = function(idx) {
+            $scope.model.friends.splice(idx, 1);
         };
 
     }]);
