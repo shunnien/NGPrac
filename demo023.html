@@ -34,6 +34,7 @@
             </div>
             <h3>共有 {{ model.friends.length }} 位朋友</h3>
             <div class="alert alert-info" ng-repeat="friend in model.friends">
+            	<button type="button" data-ng-click="remove($index)" class="close">&times;</button>
                 {{ friend.name }} <span class="badge badge-important">{{ friend.age }} 歲</span>
             </div>
         </div>
@@ -71,6 +72,10 @@ angular.module("sampleApp", [])
                 age: $scope.model.pAge,
             });
             Clear();
+        };
+
+        $scope.remove = function(idx){
+        	$scope.model.friends.splice(idx,1);
         };
 
     }]);
