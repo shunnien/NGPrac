@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="NG demo 023 - ngClick 與 ngDblclick">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NG demo 023 - ngClick 與 ngDblclick</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+    .container {
+        margin-top: 20px;
+    }
+    </style>
+</head>
+
+<body ng-app="sampleApp">
+    <div class="container">
+        <div class="well span6" ng-controller="mainCtrl">
+            <div style="margin-bottom:20px;">
+                <div class="form-group">
+                    <label class="control-label" for="name">Name:</label>
+                    <input type="text" id="name" placeholder="Name" ng-model="model.pName" class="form-control">
+                </div>
+                
+                <div class="form-group ">
+                    <label class="control-label" for="age">Age:</label>
+                    <input type="number" id="age" placeholder="age" ng-model="model.pAge" class="form-control">
+                </div>
+                <br>
+                <button class="btn btn-primary" ng-click="add()">Add</button>
+            </div>
+            <h3>共有 {{ model.friends.length }} 位朋友</h3>
+            <div class="alert alert-info" ng-repeat="friend in model.friends">
+                {{ friend.name }} <span class="badge badge-important">{{ friend.age }} 歲</span>
+            </div>
+        </div>
+        <hr>
+        <a href="index.html">Return Index</a>
+    </div>
+</body>
+<script type="text/javascript">
+angular.module("sampleApp", [])
+    .controller('mainCtrl', ['$scope', function($scope) {
+        function ViewModel() {
+            var self = this;
+
+            self.friends = [{
+                name: "Allen",
+                age: "18"
+            }, {
+                name: "Neil",
+                age: "16"
+            }, {
+                name: "Jeff",
+                age: "30"
+            }];
+            self.pName;
+            self.pAge;
+        }
+        $scope.model = new ViewModel();
+        function Clear() {
+            $scope.model.pName = null;
+            $scope.model.pAge = null;
+        }
+        $scope.add = function() {
+            $scope.model.friends.push({
+                name: $scope.model.pName,
+                age: $scope.model.pAge,
+            });
+            Clear();
+        };
+
+    }]);
+</script>
+
+</html>
