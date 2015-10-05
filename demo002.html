@@ -18,14 +18,14 @@
         <input type="button" value="Set Phone" ng-click="model.changeToPhone()" />
     </div>
     <script>
-    angular.module("sampleApp", [])
+        angular.module("sampleApp", [])
         .controller("mainCtrl", function($scope) {
             function myViewModel() {
                 var self = this;
                 self.options = [
                 	{ t: "PC",v: "PC"}, 
                 	{ t: "Notebook",v: "NB"}, 
-                	{ t: "Phone"d,v: "Phone"}
+                	{ t: "Phone" ,v: "Phone"}
                 ];
                 self.result = self.options[0];
                 self.changeToPhone = function() {
