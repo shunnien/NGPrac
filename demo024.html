@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="Filters">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NG demo 024 - Filters</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+    .container {
+        margin-top: 20px;
+    }
+    </style>
+</head>
+
+<body ng-app="sampleApp">
+    <div class="container">
+        <div ng-controller="mainCtrl as m" class="span7">
+            <div class="form-group">
+                <label class="control-label" for="tbRowLimit">Table Row Limit:</label>
+                <input type="number" class="control-label" min="5"  max="50">
+            </div>
+            
+            <hr>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <td>編號</td>
+                        <td ng-click="m.Sort = m.Sort != 'name' ? 'name' : '-name'; ">
+                            <span ng-class="{'glyphicon glyphicon-arrow-up': m.Sort === '-name', 'glyphicon glyphicon-arrow-down': m.Sort === 'name','':m.Sort !== 'name' && m.Sort !== '-name'}">名稱</span>
+                        </td>
+                        <td ng-click="m.Sort=m.Sort !== 'age' ? 'age' : '-age';">
+                            <span ng-class="{'glyphicon glyphicon-arrow-up': m.Sort === '-age', 'glyphicon glyphicon-arrow-down': m.Sort === 'age','':m.Sort !== 'age' && m.Sort !== '-age'}">
+                            年齡</span>
+                        </td>
+                        <td ng-click="m.Sort=m.Sort !== 'skills' ? 'skills' : '-skills';">
+                            <span ng-class="{'glyphicon glyphicon-arrow-up': m.Sort === '-skills', 'glyphicon glyphicon-arrow-down': m.Sort === 'skills','':m.Sort !== 'skills' && m.Sort !== '-skills'}">
+                            專長</span>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="friend in model.friends | orderBy:m.Sort | limitTo:5">
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ friend.name }}</td>
+                        <td>{{ friend.age }}</td>
+                        <td>{{ friend.skills.join(', ') }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr>
+        <a href="index.html">Return Index</a>
+    </div>
+</body>
+<script type="text/javascript">
+angular.module("sampleApp", [])
+    .controller('mainCtrl', ['$scope', function($scope) {
+
+        function ViewModel() {
+            var self = this;
+            self.friends = [{
+                name: 'Allen',
+                age: 18,
+                skills: ['jQuery', 'JavaScript', 'Angular.js']
+            }, {
+                name: 'philip',
+                age: 16,
+                skills: ['Photoshop', 'Flash', '攝影', '剪輯']
+            }, {
+                name: 'Neil',
+                age: 30,
+                skills: ['CSS', 'Camera', 'Wordpress']
+            }, {
+                name: 'Dean',
+                age: 31,
+                skills: ['Php', 'Android', 'UX']
+            }, {
+                name: '漩渦鳴人',
+                age: 17,
+                skills: ['色誘術', '後宮術', '螺旋丸', '尾獸玉']
+            }, {
+                name: '蒙其·D·魯夫',
+                age: 19,
+                skills: ['橡膠槍', '橡膠火箭砲', '換檔', '霸氣']
+            }, {
+                name: '羅羅亞·索隆',
+                age: 21,
+                skills: ['無刀流', '煩惱鳳', '阿修羅', '霸氣']
+            }, {
+                name: '娜美',
+                age: 20,
+                skills: ['天候棒', '魔法天候棒', '棍術']
+            }, {
+                name: '騙人布',
+                age: 19,
+                skills: ['鐵鎚', '超巨大火鳥星', '必殺‧鐵人彗星']
+            }, {
+                name: '香吉士',
+                age: 21,
+                skills: ['肩肉 SHOOT', '惡魔風腳', '六式', '霸氣']
+            }, {
+                name: '多尼多尼·喬巴',
+                age: 17,
+                skills: ['腳力強化', '頭腦強化', '彈力強化', '毛皮強化', '腕力強化']
+            }, {
+                name: '妮可·羅賓',
+                age: 30,
+                skills: ['眼花繚亂', '六十輪花', '百花繚亂', '萬紫千紅']
+            }, {
+                name: '佛朗基',
+                age: 36,
+                skills: ['佛朗基火球', '風來噴射', '鋼鐵海賊', '佛朗基將軍', '將軍砲']
+            }, {
+                name: '布魯克',
+                age: 90,
+                skills: ['催眠曲·輪舞', '鼻唄三丁·矢筈斬', '冰凍劍', '哼歌·吹雪斬']
+            }];
+        };
+        $scope.model = new ViewModel();
+    }]);
+
+// var myViewModel = function($scope) {
+//     // orderBy
+//     // $filter('orderBy')($scope.friends, 'age', true);
+//     // 
+//     // limitTo
+//     // $filter('limitTo')($scope.friends, 5);
+// };
+</script>
+
+</html>
