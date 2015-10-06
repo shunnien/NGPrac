@@ -1,34 +1,154 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	    <meta name="description" content="NG demo 026 - ngOptions">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>NG demo 026 - ngOptions</title>
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	</head>
-	<body ng-app>
-		<div class="container">
-			<div ng-controller="mainCtrl">
-			</div>
 
-			<hr>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="NG demo 026 - ngOptions">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NG demo 026 - ngOptions</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+    .container {
+        margin-top: 20px;
+    }
+    </style>
+</head>
 
-        	<a href="index.html">Return Index</a>
-		</div>
-		
-	</body>
-	<script type="text/javascript">
-	angular.module("sampleApp", [])
+<body ng-app="sampleApp">
+    <div class="container">
+        <div ng-controller="mainCtrl" class="col-xs-6">
+            <h3> ng-options 的 4 種不同用法 陣列</h3>
+            <div class="alert alert-info">
+                <p> 1. label for value in array</p>
+                <select ng-model="role" data-ng-options="role for role in model.onepiece">
+                    <option value="">--請選擇角色--</option>
+                </select>
+                <div ng-show="role!=''">選擇的是:{{ role }}</div>
+            </div>
+            <div class="alert alert-info">
+                <p> 2. select as label for value in array</p>
+                <select ng-model="role2" data-ng-options="key as key + ':' + value for (key, value) in model.onepiece">
+                    <option value="">--請選擇角色--</option>
+                </select>
+                <div ng-show="role2!=''">選擇的是:{{ role2 }}</div>
+            </div>
+            <div class="alert alert-info">
+                <!--  -->
+                <p> 3. label group by group for value in array
+                    <br> 使用 group by 來指定要如何來將選項分組</p>
+                <select ng-model="role3" data-ng-options="member group by i for (i, member) in model.onepiece">
+                    <option value="">--請選擇角色--</option>
+                </select>
+                <div ng-show="role3!=''">選擇的是:{{ role3 }}</div>
+            </div>
+            <div class="alert alert-info">
+                <!--  -->
+                <p> 4. select as label group by group for value in array
+                    <br> 既有分組，也有自定值
+                </p>
+                <select ng-model="role4" data-ng-options="i as member group by i for (i, member) in model.onepiece">
+                    <option value="">--請選擇角色--</option>
+                </select>
+
+                <div ng-show="role4!=''">選擇的是:{{ role4 }}</div>
+            </div>
+        </div>
+        <div ng-controller="mainCtrl as m2" class="col-xs-6">
+            <h3> ng-options 的 4 種不同用法 物件</h3>
+            <div class="alert alert-info">
+                <p> 1. label for value in array</p>
+                <select ng-model="role" data-ng-options="member.name for member in model.objOP">
+                    <option value="">--請選擇角色--</option>
+                </select>
+                <div ng-show="role!=null">選擇的是:{{ role.name + '(' + role.age + ')' }}</div>        
+            </div>
+            <div class="alert alert-success">
+                <p> 2. select as label for value in array</p>
+                
+                <select ng-model="role2" data-ng-options="key.name as (key.name + '(' + key.age + ')') for key in model.objOP">
+                    <option value="">--請選擇角色--</option>
+                </select>
+                <div ng-show="role2!=null">選擇的是:{{ role2 }}</div>
+                
+            </div>
+            <div class="alert alert-danger">
+                <!--  -->
+                <p> 3. label group by group for value in array
+                    <br> 使用 group by 來指定要如何來將選項分組</p>
+                <select ng-model="role3" data-ng-options="member.name group by member.age for member in model.objOP">
+                    <option value="">--請選擇角色--</option>
+                </select>
+                <div ng-show="role3!=null">選擇的是:{{ role3.name + '(' + role3.age + ')' }}</div>
+            </div>
+            <div class="alert alert-warning">
+                <!--  -->
+                <p> 4. select as label group by group for value in array track by trackexpr
+                    <br> 多了一個很特別的 Angular 表達式(Angular Expressions) - track by
+                    <br>可以用來自訂一個屬性用來區別每一個物件是唯一的，
+                    <br>假設筆者現在是用 member.age 來區別物件，
+                    <br>所以若是值一樣的話，就都會以第一個為主
+                </p>
+                <select ng-model="role4" data-ng-options="member as member.name group by member.age for member in model.objOP track by member.age ">
+                    <option value="">--請選擇角色--</option>
+                </select>
+                <!-- <div ng-show="role4!=''">選擇的是:{{ role4 }}</div> -->
+                <div ng-show="role4!=null">選擇的是:{{ role4.name + '(' + role4.age + ')' }}</div>
+            </div>
+        </div>
+        <hr>
+        <a href="index.html">Return Index</a>
+    </div>
+</body>
+<script type="text/javascript">
+angular.module("sampleApp", [])
     .controller('mainCtrl', ['$scope', function($scope) {
         var myViewModel = function() {
-        	var self = this;
+            var self = this;
             self.onepiece = ['蒙其·D·魯夫', '羅羅亞·索隆', '娜美', '騙人布', '香吉士', '多尼多尼·喬巴', '妮可·羅賓', '佛朗基', '布魯克'];
+            self.objOP = [{
+                name: '蒙其·D·魯夫',
+                age: 19,
+                skills: ['橡膠槍', '橡膠火箭砲', '換檔', '霸氣']
+            }, {
+                name: '羅羅亞·索隆',
+                age: 21,
+                skills: ['無刀流', '煩惱鳳', '阿修羅', '霸氣']
+            }, {
+                name: '娜美',
+                age: 20,
+                skills: ['天候棒', '魔法天候棒', '棍術']
+            }, {
+                name: '騙人布',
+                age: 19,
+                skills: ['鐵鎚', '超巨大火鳥星', '必殺‧鐵人彗星']
+            }, {
+                name: '香吉士',
+                age: 21,
+                skills: ['肩肉 SHOOT', '惡魔風腳', '六式', '霸氣']
+            }, {
+                name: '多尼多尼·喬巴',
+                age: 17,
+                skills: ['腳力強化', '頭腦強化', '彈力強化', '毛皮強化', '腕力強化']
+            }, {
+                name: '妮可·羅賓',
+                age: 30,
+                skills: ['眼花繚亂', '六十輪花', '百花繚亂', '萬紫千紅']
+            }, {
+                name: '佛朗基',
+                age: 36,
+                a: 90,
+                skills: ['佛朗基火球', '風來噴射', '鋼鐵海賊', '佛朗基將軍', '將軍砲']
+            }, {
+                name: '布魯克',
+                age: 90,
+                skills: ['催眠曲·輪舞', '鼻唄三丁·矢筈斬', '冰凍劍', '哼歌·吹雪斬']
+            }];
         };
         $scope.model = new myViewModel();
 
     }])
-	</script>
+</script>
+
 </html>
