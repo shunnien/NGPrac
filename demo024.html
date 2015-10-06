@@ -45,7 +45,7 @@
                 <tbody>
                     <tr ng-repeat="friend in model.friends | orderBy:m.Sort | limitTo:model.limit">
                         <td>{{ $index + 1 }}</td>
-                        <td>{{ friend.name }}</td>
+                        <td>{{ friend.name | uppercase }}</td>
                         <td>{{ friend.age }}</td>
                         <td>{{ friend.skills.join(', ') }}</td>
                     </tr>
