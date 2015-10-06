@@ -30,9 +30,9 @@
                 <!-- 能設定預設值 -->
                 <h1>{{ greeting || "Hello" }} {{ name || "AngularJS" }}!!</h1>
             </div>
-            
+
+            <!-- 不具備雙向資料綁定(Two-way data-binding)的功能， ng-show、ng-hide、ng-checked、ng-disabled、ng-readonly  -->
             <div class="alert alert-success">
-                <!-- 不具備雙向資料綁定(Two-way data-binding)的功能， ng-show、ng-hide、ng-checked、ng-disabled  -->
                 <label>全選/全取消:
                     <input type="checkbox" ng-model="selectAll">
                 </label>
@@ -43,8 +43,21 @@
                 <input type="checkbox" ng-checked="selectAll">
                 <input type="checkbox" ng-checked="selectAll">
             </div>
+            <div class="alert">
+                <label>我同意
+                    <input type="checkbox" ng-model="agree">
+                </label>
+                <input type="text" ng-disabled="!agree" value=" this is disabled">
+                <button class="btn btn-primary" ng-disabled="!agree">Test button</button>
+            </div>
 
-            
+            <div class="alert alert-error">
+                <label>唯讀
+                    <input type="checkbox" ng-model="readonly">
+                </label>
+                <input type="text" ng-readonly="readonly" value=" this is readonly ">
+                <textarea ng-readonly="readonly"> this is textarea</textarea>
+            </div>
         </div>
         <hr>
         <a href="index.html">Return Index</a>
