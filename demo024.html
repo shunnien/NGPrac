@@ -21,7 +21,7 @@
         <div ng-controller="mainCtrl as m" class="span7">
             <div class="form-group">
                 <label class="control-label" for="tbRowLimit">Table Row Limit:</label>
-                <input type="number" class="control-label" min="5"  max="50">
+                <input type="number" class="control-label" min="5"  ng-model="model.limit" max="50">
             </div>
             
             <hr>
@@ -43,7 +43,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="friend in model.friends | orderBy:m.Sort | limitTo:5">
+                    <tr ng-repeat="friend in model.friends | orderBy:m.Sort | limitTo:model.limit">
                         <td>{{ $index + 1 }}</td>
                         <td>{{ friend.name }}</td>
                         <td>{{ friend.age }}</td>
