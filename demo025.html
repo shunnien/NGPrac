@@ -19,7 +19,8 @@
 <body ng-app="sampleApp">
     <div class="container">
         <div ng-controller="mainCtrl" class="col-xs-10">
-            <div class="alert alert-info">
+        <!-- use ng-init set default value -->
+            <div class="alert alert-info" ng-init="greeting='Hi,';name='allen';">
                 <label>Messgae:</label>
                 <input type="text" ng-model="greeting" placeholder="Enter a message here" class="form-control">
                 <br>
