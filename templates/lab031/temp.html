@@ -1,5 +1,11 @@
 <ul>
-	<li ng-repeat="person in vm.friends" >
-		<a ng-href="#/edit/{{ $index }}">{{ person.name }}</a> : {{ person.reward | number }}
-	</li>
+    <li ng-repeat="person in vm.friends">
+        <a ng-href="#/edit/{{ $index }}">{{ person.name }}</a> : {{ person.reward | number }}
+    </li>
 </ul>
+
+<div class="form-group">
+    <div class="col-sm-11 col-sm-offset-1">
+        <a ng-href="#/add" class="btn btn-primary">Add New</a>
+    </div>
+</div>

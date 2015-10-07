@@ -3,18 +3,18 @@
         <div class="form-group">
             <label class="col-lg-2 control-label">姓名:</label>
             <div class="col-lg-10">
-                <input type="text" class="form-control" placeholder="姓名" ng-model="vm.friends[index].name">
+                <input type="text" class="form-control" placeholder="姓名" ng-model="vm.fName">
             </div>
         </div>
         <div class="form-group">
             <label class="col-lg-2 control-label">懸賞金:</label>
             <div class="col-lg-10">
-                <input type="text" class="form-control" placeholder="懸賞金" ng-model="vm.friends[index].reward">
+                <input type="text" class="form-control" placeholder="懸賞金" ng-model="vm.fReward">
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-10 col-lg-offset-2">
-                <a class="btn btn-primary" ng-href="#/">Update</a>
+                <a class="btn btn-primary" ng-href="#/" ng-click="vm.add()">Add</a>
             </div>
         </div>
     </fieldset>

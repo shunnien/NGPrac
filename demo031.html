@@ -35,6 +35,10 @@ angular.module("sampleApp", ['ngRoute'], function($routeProvider) {
                 templateUrl: 'templates/lab031/temp.html',
                 controller: 'mainCtrl'
             })
+            .when('/add', {
+                templateUrl: 'templates/lab031/add.html',
+                controller: 'mainCtrl'
+            })
             .when('/edit/:index', {
                 templateUrl: 'templates/lab031/edit.html',
                 controller: 'editCtrl'
@@ -57,7 +61,8 @@ angular.module("sampleApp", ['ngRoute'], function($routeProvider) {
     })
     .controller('mainCtrl', ['$scope', '$routeParams', function($scope, $routeParams) {
         var self = this;
-
+        self.fName;
+        self.fReward;
         self.friends = [{
             name: '蒙其·D·魯夫',
             reward: 400000000
@@ -86,6 +91,18 @@ angular.module("sampleApp", ['ngRoute'], function($routeProvider) {
             name: '布魯克',
             reward: 33000000
         }];
+        self.add = function() {
+            self.friends.push({
+                name: self.fName,
+                reward: self.fReward
+            });
+            Clear();
+        };
+
+        function Clear() {
+            self.fName = null;
+            self.fReward = null;
+        }
     }])
     .controller('greetingCtrl', ['$scope', '$routeParams', function($scope, $routeParams) {
         $scope.greeting = $routeParams.message || 'Hi~';
