@@ -24,12 +24,14 @@
     </div>
 </body>
 <script type="text/javascript">
-angular.module("sampleApp", [])
-    .controller("mainCtrl", ['$scope',function(a) {
-        a.name = 'Allen';
-    }]);
+// function 抽出必須放在 NG setting controller 之前
+var Ct = function(a) {
+    a.name = 'Allen';
+};
 
-//ngApp.$inject = ["$scope"];
+angular.module("sampleApp", [])
+    .controller("mainCtrl", Ct);
+Ct.$inject = ["$scope"];
 </script>
 
 </html>
