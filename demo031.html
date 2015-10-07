@@ -22,7 +22,6 @@
     <div class="container">
         <div ng-controller="mainCtrl">
             <h2>海賊王</h2>
-            <a href="#/edit">edit</a>
             <div ng-view></div>
         </div>
         <hr>
@@ -33,14 +32,16 @@
 angular.module("sampleApp", ['ngRoute'], function($routeProvider) {
         $routeProvider
             .when('/', {
-                templateUrl: 'templates/lab031/temp.html'
+                templateUrl: 'templates/lab031/temp.html',
+                controller: 'mainCtrl'
             })
-            .when('/edit', {
-                templateUrl: 'templates/lab031/edit.html'
+            .when('/edit/:index', {
+                templateUrl: 'templates/lab031/edit.html',
+                controller: 'editCtrl'
             })
             .when('/hello/:message/:index', {
                 templateUrl: 'templates/lab031/hello.html',
-                controller: 'mainCtrl'
+                controller: 'greetingCtrl'
             })
             .otherwise({
                 redirectTo: '/'
@@ -78,10 +79,16 @@ angular.module("sampleApp", ['ngRoute'], function($routeProvider) {
                 reward: 33000000
             }];
         };
-        $scope.index = $routeParams.index;
-        $scope.greeting = $routeParams.message;
+        
         $scope.model = new viewModel();
     }])
+    .controller('greetingCtrl', ['$scope', '$routeParams', function($scope, $routeParams) {
+    	$scope.index = $routeParams.index;
+        $scope.greeting = $routeParams.message;
+    }])
+    .controller('editCtrl', ['$scope', '$routeParams', function($scope, $routeParams) {
+        $scope.index = $routeParams.index;
+    }]);
 </script>
 
 </html>
