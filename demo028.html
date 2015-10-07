@@ -1,25 +1,56 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	    <meta name="description" content="ngHref & ngSrc">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>NG demo 028 - ngHref & ngSrc</title>
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	</head>
-	<body ng-app>
-		<div class="container">
-			<div ng-controller="mainCtrl">
-			</div>
 
-			<hr>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="ngHref & ngSrc">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NG demo 028 - ngHref & ngSrc</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+    .container {
+        margin-top: 20px;
+    }
+    </style>
+</head>
 
-        	<a href="index.html">Return Index</a>
-		</div>
-		
-	</body>
-	<script type="text/javascript">
-	</script>
+<body ng-app="sampleApp">
+    <div class="container">
+        <div ng-controller="mainCtrl">
+            <div class="col-xs-12" ng-init="guess='dog_256.png';">
+                <div class="alert">
+                    <button class="btn btn-primary" ng-click="guess='dog_256.png';">圖片改為 dog</button>
+                    <button class="btn btn-primary" ng-click="guess='Cat-Black-White-icon.png';">圖片改為 Cat-Black-White-icon.png</button>
+                    <button class="btn btn-primary" ng-click="guess='Cat-Brown-icon.png';">圖片改為 Cat-Brown-icon.png</button>
+                </div>
+                <div class="alert alert-dismissible alert-warning">
+                    <h4>Introduction</h4>
+                    <p>使用 ngHref 的原因是避免 hyperlink 在angular.js 沒有載入成功或是還沒載入完的話 連結錯誤造成 404 的頁面 <br><br>
+                    ngSrc 則是 angular.js 載入失敗時，不管是直接使用 src 或是改用 ng-src 都會顯示所謂的叉燒包圖片(Chrome 及 Firefox 遇到沒有 src 屬性的圖片會不顯示)<br>
+                    使用 ngSrc 的主要原因是元素的 src 基本上就是會跟隨著頁面文件的載入而一起被讀取，而 AngularJS 是當頁面文件內容載入後完才進行。因此若是直接使用 src 加上 Angular 表達式(Angular Expressions)的圖片路徑就會被請求載入一次了，但這是不必要且是錯誤的。
+                    </p>
+                </div>
+                
+                <div class="alert alert-success">
+                    <div class="jumbotron">
+                        <h2>{{guess}}</h2>
+                        <img ng-src="images/{{guess}}" alt="">
+                    </div>
+                    <a ng-href="images/{{guess}}">瀏覽圖片</a>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <a href="index.html">Return Index</a>
+    </div>
+</body>
+<script type="text/javascript">
+angular.module("sampleApp", [])
+    .controller('mainCtrl', ['$scope', function($scope) {
+
+    }]);
+</script>
+
 </html>
