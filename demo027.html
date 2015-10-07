@@ -1,26 +1,112 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	    <meta name="description" content="ngChange">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>NG demo 027 - ngChange</title>
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	</head>
-	<body ng-app="sampleApp">
-		<div class="container">
-			<div ng-controller="mainCtrl">
 
-			</div>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="ngChange">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NG demo 027 - ngChange</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+    .container {
+        margin-top: 20px;
+    }
+    </style>
+</head>
 
-			<hr>
+<body ng-app="sampleApp">
+    <div class="container">
+        <div ng-controller="mainCtrl">
+            <div class="form-group has-warning">
+                <label class="control-label" for="inputDefault">Job</label>
+                <input type="text" class="form-control" id="inputDefault" ng-model="model.role">
+            </div>
+            <div class="form-group has-success">
+                <label class="control-label" for="inputSuccess">Name</label>
+                <input type="text" class="form-control" id="inputSuccess" ng-model="model.obj[model.role].name">
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="inputDefault">Age</label>
+                <input type="text" class="form-control" id="inputDefault" ng-model="model.obj[model.role].age">
+            </div>
+            <hr>
+            <div class="alert alert-success">
+                <p>select as label for (key,value) in object</p>
+                <select ng-model="model.role" data-ng-options="objK as (objK + ' - ' + objV.name + '(' + objV.age + ')') for (objK,objV) in model.obj" ng-change="model.change();">
+                    <option value="">--請選擇角色--</option>
+                </select>
+                <div ng-show="model.result!=''">選擇的是:{{ model.result }}</div>
+            </div>
+        </div>
+        <hr>
+        <a href="index.html">Return Index</a>
+    </div>
+</body>
+<script type="text/javascript">
+angular.module("sampleApp", [])
+    .controller('mainCtrl', ['$scope', function($scope) {
+        var myViewModel = function() {
+            var self = this;
+            self.role = null;
+            self.result = '';
+            self.changeCount = 0;
+            self.change = function() {
+                self.changeCount++;
+                self.result = self.obj[self.role].name + '(變更了 ' + self.changeCount + ' 次)';
+            };
 
-        	<a href="index.html">Return Index</a>
-		</div>
-		
-	</body>
-	<script type="text/javascript">
-	</script>
+            self.obj = {
+                '船長': {
+                    name: '蒙其·D·魯夫',
+                    age: 19,
+                    skills: ['橡膠槍', '橡膠火箭砲', '換檔', '霸氣']
+                },
+                '劍士': {
+                    name: '羅羅亞·索隆',
+                    age: 21,
+                    skills: ['無刀流', '煩惱鳳', '阿修羅', '霸氣']
+                },
+                '航海士': {
+                    name: '娜美',
+                    age: 20,
+                    skills: ['天候棒', '魔法天候棒', '棍術']
+                },
+                '狙擊手': {
+                    name: '騙人布',
+                    age: 19,
+                    skills: ['鐵鎚', '超巨大火鳥星', '必殺‧鐵人彗星']
+                },
+                '廚師': {
+                    name: '香吉士',
+                    age: 21,
+                    skills: ['肩肉 SHOOT', '惡魔風腳', '六式', '霸氣']
+                },
+                '船醫': {
+                    name: '多尼多尼·喬巴',
+                    age: 17,
+                    skills: ['腳力強化', '頭腦強化', '彈力強化', '毛皮強化', '腕力強化']
+                },
+                '考古學家': {
+                    name: '妮可·羅賓',
+                    age: 30,
+                    skills: ['眼花繚亂', '六十輪花', '百花繚亂', '萬紫千紅']
+                },
+                '船匠': {
+                    name: '佛朗基',
+                    age: 36,
+                    skills: ['佛朗基火球', '風來噴射', '鋼鐵海賊', '佛朗基將軍', '將軍砲']
+                },
+                '音樂家': {
+                    name: '布魯克',
+                    age: 90,
+                    skills: ['催眠曲·輪舞', '鼻唄三丁·矢筈斬', '冰凍劍', '哼歌·吹雪斬']
+                }
+            };
+        };
+        $scope.model = new myViewModel();
+    }]);
+</script>
+
 </html>
