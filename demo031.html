@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NG demo 030 - ngRoute 與 ngView</title>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <!-- 引用 ng-route js -->
+    <script src="//code.angularjs.org/1.4.7/angular-route.min.js"></script>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <style>
     .container {
@@ -16,19 +18,62 @@
     </style>
 </head>
 
-<body ng-app>
+<body ng-app="sampleApp">
     <div class="container">
         <div ng-controller="mainCtrl">
+            <h2>海賊王</h2>
+            <a href="#/edit">edit</a>
+            <div ng-view></div>
         </div>
-        <hr>]
+        <hr>
         <a href="index.html">Return Index</a>
     </div>
 </body>
 <script type="text/javascript">
-angular.module("sampleApp",[])
-.controller('mainCtrl', ['$scope', function ($scope) {
-	
-}])
+angular.module("sampleApp", ['ngRoute'], function($routeProvider) {
+        $routeProvider
+            .when('/', {
+                templateUrl: 'templates/lab031/temp.html'
+            })
+            .when('/edit', {
+                templateUrl: 'templates/lab031/edit.html'
+            })
+            .otherwise(	{redirectTo:'/'});
+    })
+    .controller('mainCtrl', ['$scope', function($scope) {
+        function viewModel() {
+            var self = this;
+            self.friends = [{
+                name: '蒙其·D·魯夫',
+                reward: 400000000
+            }, {
+                name: '羅羅亞·索隆',
+                reward: 120000000
+            }, {
+                name: '娜美',
+                reward: 16000000
+            }, {
+                name: '騙人布',
+                reward: 30000000
+            }, {
+                name: '香吉士',
+                reward: 77000000
+            }, {
+                name: '多尼多尼·喬巴',
+                reward: 50
+            }, {
+                name: '妮可·羅賓',
+                reward: 80000000
+            }, {
+                name: '佛朗基',
+                reward: 44000000
+            }, {
+                name: '布魯克',
+                reward: 33000000
+            }];
+        };
+        $scope.model = new viewModel();
+    }])
 </script>
 
 </html>
