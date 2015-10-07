@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="NG demo 029 - Module">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NG demo 029 - Module</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+    .container {
+        margin-top: 20px;
+    }
+    </style>
+</head>
+
+<body ng-app="CalApp">
+    <div class="container">
+        <div ng-controller="mainCtrl">
+            <form class="col-xs-12 form-inline">
+                <div class="alert alert-info">
+                    <input type="number" class="input-small" ng-model="num1">
+                    <span>*</span>
+                    <input type="number" class="input-small" ng-model="num2" disabled>
+                    <span>=</span> {{ num1 * num2}}
+                </div>
+            </form>
+        </div>
+        <hr>
+        <a href="index.html">Return Index</a>
+    </div>
+</body>
+<script type="text/javascript">
+var calMu = angular.module("CalApp", []);
+calMu.controller('mainCtrl', ['$scope', function($scope) {
+    $scope.num1 = 0;
+    $scope.num2 = 5;
+}]);
+</script>
+
+</html>
