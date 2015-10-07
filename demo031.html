@@ -38,7 +38,12 @@ angular.module("sampleApp", ['ngRoute'], function($routeProvider) {
             .when('/edit', {
                 templateUrl: 'templates/lab031/edit.html'
             })
-            .otherwise(	{redirectTo:'/'});
+            .when('/hello', {
+                templateUrl: 'templates/lab031/hello.html'
+            })
+            .otherwise({
+                redirectTo: '/'
+            });
     })
     .controller('mainCtrl', ['$scope', function($scope) {
         function viewModel() {
