@@ -24,12 +24,12 @@
     </div>
 </body>
 <script type="text/javascript">
-angular.module("sampleApp",[])
-.controller("mainCtrl",function(a){
-$scope.name = 'Allen';
-});
+angular.module("sampleApp", [])
+    .controller("mainCtrl", ['$scope',function(a) {
+        a.name = 'Allen';
+    }]);
 
-//mainCtrl.$inject = [""]
+//ngApp.$inject = ["$scope"];
 </script>
 
 </html>
