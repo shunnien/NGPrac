@@ -24,14 +24,18 @@
     </div>
 </body>
 <script type="text/javascript">
-// function 抽出必須放在 NG setting controller 之前
-var Ct = function(a) {
-    a.name = 'Allen';
-};
 
+// 這樣無法另外注入，controller 為匿名函式，必須
+// angular.module("sampleApp", [])
+//     .controller("mainCtrl", function(a) {
+//     a.name = 'Allen';
+// });
+// 使用.controller(name, constructor) 依賴注入(Dependency Injection)
 angular.module("sampleApp", [])
-    .controller("mainCtrl", Ct);
-Ct.$inject = ["$scope"];
+    .controller("mainCtrl", ["$scope",function(a) {
+    a.name = 'Allen';
+}]);
+
 </script>
 
 </html>
