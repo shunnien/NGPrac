@@ -18,7 +18,7 @@
 
 <body ng-app="sampleApp">
     <div class="container">
-    	<a href="https://code.angularjs.org/1.4.7/docs/api/ng/directive/ngOptions"> Ref link</a>
+        <a href="https://code.angularjs.org/1.4.7/docs/api/ng/directive/ngOptions"> Ref link</a>
         <div ng-controller="mainCtrl" class="col-xs-6">
             <h3> ng-options 的 4 種不同用法 陣列</h3>
             <div class="alert alert-info">
@@ -95,8 +95,16 @@
                 <div ng-show="role4!=null">選擇的是:{{ role4.name + '(' + role4.age + ')' }}</div>
             </div>
         </div>
-
-        <div ng-controller="mainCtrl as m3" class="col-xs-8">
+        <div ng-controller="mainCtrl as m3" class="col-xs-12">
+            <div class="form-group has-success">
+                <label class="control-label" for="inputSuccess">Name</label>
+                <input type="text" class="form-control" id="inputSuccess" ng-model="role.name">
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="inputDefault">Age</label>
+                <input type="text" class="form-control" id="inputDefault" ng-model="role.age">
+            </div>
+            <hr>
             <h3> ng-options 的 4 種不同用法 物件</h3>
             <div class="alert alert-info">
                 <p> 1. label for (key,value) in object</p>
@@ -123,7 +131,7 @@
             </div>
             <div class="alert alert-warning">
                 <!--  -->
-                <p> 4. select as label group by group for (key, value) in object 
+                <p> 4. select as label group by group for (key, value) in object
                     <br> 一般的物件並沒有像是陣列中的物件那樣有多出 track by 的語法
                 </p>
                 <select ng-model="role4" data-ng-options="( objK + ' - '+ objV.name ) as objV.name group by objV.age for (objK,objV) in model.obj ">
