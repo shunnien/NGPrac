@@ -20,7 +20,7 @@
 
 <body ng-app="sampleApp">
     <div class="container">
-        <div ng-controller="mainCtrl">
+        <div ng-controller="mainCtrl as vm">
             <h2>海賊王</h2>
             <div ng-view></div>
         </div>
@@ -39,6 +39,14 @@ angular.module("sampleApp", ['ngRoute'], function($routeProvider) {
                 templateUrl: 'templates/lab031/edit.html',
                 controller: 'editCtrl'
             })
+            .when('/hello', {
+                templateUrl: 'templates/lab031/hello.html',
+                controller: 'greetingCtrl'
+            })
+            .when('/hello/:message', {
+                templateUrl: 'templates/lab031/hello.html',
+                controller: 'greetingCtrl'
+            })
             .when('/hello/:message/:index', {
                 templateUrl: 'templates/lab031/hello.html',
                 controller: 'greetingCtrl'
@@ -48,43 +56,40 @@ angular.module("sampleApp", ['ngRoute'], function($routeProvider) {
             });
     })
     .controller('mainCtrl', ['$scope', '$routeParams', function($scope, $routeParams) {
-        function viewModel() {
-            var self = this;
-            self.friends = [{
-                name: '蒙其·D·魯夫',
-                reward: 400000000
-            }, {
-                name: '羅羅亞·索隆',
-                reward: 120000000
-            }, {
-                name: '娜美',
-                reward: 16000000
-            }, {
-                name: '騙人布',
-                reward: 30000000
-            }, {
-                name: '香吉士',
-                reward: 77000000
-            }, {
-                name: '多尼多尼·喬巴',
-                reward: 50
-            }, {
-                name: '妮可·羅賓',
-                reward: 80000000
-            }, {
-                name: '佛朗基',
-                reward: 44000000
-            }, {
-                name: '布魯克',
-                reward: 33000000
-            }];
-        };
-        
-        $scope.model = new viewModel();
+        var self = this;
+
+        self.friends = [{
+            name: '蒙其·D·魯夫',
+            reward: 400000000
+        }, {
+            name: '羅羅亞·索隆',
+            reward: 120000000
+        }, {
+            name: '娜美',
+            reward: 16000000
+        }, {
+            name: '騙人布',
+            reward: 30000000
+        }, {
+            name: '香吉士',
+            reward: 77000000
+        }, {
+            name: '多尼多尼·喬巴',
+            reward: 50
+        }, {
+            name: '妮可·羅賓',
+            reward: 80000000
+        }, {
+            name: '佛朗基',
+            reward: 44000000
+        }, {
+            name: '布魯克',
+            reward: 33000000
+        }];
     }])
     .controller('greetingCtrl', ['$scope', '$routeParams', function($scope, $routeParams) {
-    	$scope.index = $routeParams.index;
-        $scope.greeting = $routeParams.message;
+        $scope.greeting = $routeParams.message || 'Hi~';
+        $scope.index = $routeParams.index || 0;
     }])
     .controller('editCtrl', ['$scope', '$routeParams', function($scope, $routeParams) {
         $scope.index = $routeParams.index;
