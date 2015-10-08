@@ -19,8 +19,12 @@
 <body ng-app="sampleApp">
     <div class="container">
         <div ng-controller="mainCtrl">
-            <div class="well col-lg-4" >
-                <input type="text" ng-model="tags">
+            <div class="alert alert-dismissible alert-warning">
+                <h4>Introduction</h4>
+                <p>透過 ng-list 指令能快速的達到，使用某種符號來將輸入的內容分割成陣列</p>
+            </div>
+            <div class="well ">
+                <input type="text" ng-model="tags" ng-list >
                 <div>tags = {{ tags }}</div>
             </div>
         </div>
