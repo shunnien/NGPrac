@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="description" content="設計與樣式 ngClass">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NG demo 033 - 設計與樣式 ngClass, gClassEven, ngClassOdd</title>
+    <title>NG demo 033 - 設計與樣式 ngClass, gClassEven, ngClassOdd, ngStyle</title>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <style>
@@ -31,6 +31,7 @@
     }
     
     .odd {
+
         color: deepskyblue;
     }
     </style>
@@ -75,6 +76,23 @@
                 <ul>
                     <li data-ng-repeat="role in m.friends" ng-class-even="'even'" data-ng-class-odd="'odd'">{{role.name}}</li>
                 </ul>
+            </div>
+            <div class="well">
+                <div class="alert alert-dismissible alert-warning">
+                    <h4>說明 ngStyle</h4>
+                    <p> key 就是我們的 CSS 屬性，而 value 就是屬性值<br>
+                    雖然 CSS 屬性是物件的 key，但 JavaScript 是不允許 - 的存在，所以如果要設定像是 font-size 這種屬性的話，<br>
+                    可以將 - 刪除並將後面的單字開頭變成大寫<br>
+                    或是將 key 用單引號或雙引號包起來</p>
+                </div>
+                <input type="button" class="btn btn-primary" value="Set Sytle Red" ng-click="myStyle={color:'red',fontSize:'26px','background-color':'lightblue'}">
+                <input type="button" class="btn btn-warning" value="Clear Style" ng-click="myStyle={}">
+                <br>
+                <br>
+                <div ng-style="myStyle">ngStyle Demo</div>
+                <pre>myStyle = {{ myStyle }}</pre >
+                <hr>
+
             </div>
         </div>
         <hr>
