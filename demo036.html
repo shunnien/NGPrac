@@ -19,8 +19,13 @@
 <body ng-app="sampleApp">
     <div class="container">
         <div ng-controller="mainCtrl">
+            <p>目的：字串轉小並並將空白轉換成 - 的話</p>
+            <p>.filter(name, filterFactory)；在filterFactory 中透過閉包(Closure)的方式來建立處理用的函式</p>
             <div class="well">
-                {{ text }}
+                {{ text | clean:'+-'}}
+                <div class="alert alert-dismissible alert-warning">
+                    <h3>use Camel</h3> {{text | toCamel}}
+                </div>
             </div>
         </div>
         <hr>
@@ -29,6 +34,18 @@
 </body>
 <script type="text/javascript">
 angular.module("sampleApp", [])
+    .filter('clean', function() {
+        return function(str, separator) {
+            return str.toLowerCase().replace(/\s+/g, separator || '-');
+        };
+    })
+    .filter('toCamel', function() {
+        return function(str) {
+            return str.toLowerCase().replace(/\s(.)/g, function(match, group1) {
+                return group1.toUpperCase();
+            });
+        };
+    })
     .controller('mainCtrl', ['$scope', function($scope) {
         $scope.text = 'Hello Kitty';
     }]);
