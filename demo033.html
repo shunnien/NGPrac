@@ -40,10 +40,30 @@
             <p>當瀏覽器在載入時就會想套用 class，但除了在載入的第一時間是找不到正確的 class 內容之外，同時也無法通過 W3C 的驗證。所以不建議用這樣帶有污染 class 的方式來使用，而建議改用 ng-class 的宣告式語法(Directives Syntax)方式。</p>
         </div>
         <div ng-controller="mainCtrl as m">
+            <div class="form-group ">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="useRed"> Red?
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-model="useBold"> Bold?
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-model="useItalic"> Italic?
+                    </label>
+                </div>
+            </div>
             <div class="well col-xs-12" ng-init="cusClass='red';red='red';bold='';italic='italic';">
                 <div ng-class="[red, bold, italic]">Ng-class array</div>
                 <div ng-class="cusClass">Hello angular.js</div>
                 <div ng-class="m.cssObj[m.selected]">use Object Test</div>
+
+                
+                <div ng-class="{ red: useRed, bold: useBold, italic: useItalic }">套用 checkbox binding</div>
+                <div class="alert alert-dismissible alert-warning">
+                    <h4>說明 ［套用 checkbox binding］</h4>
+                    <p>使用 (key, value) 的方式，因此透過 selectd 可以從 cssObj 中取得相對的值；每個 key 所對應的值是一個 Model，而接下來將它們綁在勾選框上，所以值就是 true 或 false 的布林值</p>
+                </div>
             </div>
         </div>
         <hr>
@@ -55,9 +75,9 @@ angular.module("sampleApp", [])
     .controller('mainCtrl', ['$scope', function($scope) {
         var self = this;
         self.cssObj = {
-		    useRed:'red',
-		    useBold:'bold',
-		    useItalic:'italic'
+            useRed: 'red',
+            useBold: 'bold',
+            useItalic: 'italic'
         };
         self.selected = 'useItalic'
     }]);
