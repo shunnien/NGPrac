@@ -21,11 +21,24 @@
         <div ng-controller="mainCtrl">
             <div class="alert alert-dismissible alert-warning">
                 <h4>Introduction</h4>
-                <p>透過 ng-list 指令能快速的達到，使用某種符號來將輸入的內容分割成陣列</p>
+                <p>透過 ng-list 指令能快速的達到，使用某種符號來將輸入的內容分割成陣列，且支援正規表示法(Regular Expression)</p>
+                <p>但是 model 初始化後，通常都不會先跑 list 結果</p>
             </div>
             <div class="well ">
-                <input type="text" ng-model="tags" ng-list >
+            	<!-- 僅有預設的逗號分隔 -->
+            	<p>測試內容：allen,neil,kevin</p>
+                <input type="text" ng-model="tags" ng-list>
                 <div>tags = {{ tags }}</div>
+                <br>
+                <!-- |符號分隔但是都包含預設逗號分隔 -->
+                <p>測試內容：allen|neil|kevin</p>
+                <input type="text" ng-model="tagsSign" ng-list="|">
+                <div>tagsSign = {{ tagsSign }}</div>
+                <br>
+                <!-- 空格分隔 -->
+                <p>測試內容：allen neil kevin</p>
+                <input type="text" ng-model="tagsReg" ng-list=/\s/>
+                <div>tagsReg = {{ tagsReg }}</div>
             </div>
         </div>
         <hr>
@@ -35,7 +48,8 @@
 <script type="text/javascript">
 angular.module("sampleApp", [])
     .controller('mainCtrl', ['$scope', function($scope) {
-
+    	//var self = this;
+    	$scope.tagsReg = "allen neil kevin";
     }]);
 </script>
 
