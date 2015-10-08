@@ -39,10 +39,11 @@
                 </pre>
             <p>當瀏覽器在載入時就會想套用 class，但除了在載入的第一時間是找不到正確的 class 內容之外，同時也無法通過 W3C 的驗證。所以不建議用這樣帶有污染 class 的方式來使用，而建議改用 ng-class 的宣告式語法(Directives Syntax)方式。</p>
         </div>
-        <div ng-controller="mainCtrl">
+        <div ng-controller="mainCtrl as m">
             <div class="well col-xs-12" ng-init="cusClass='red';red='red';bold='';italic='italic';">
-            	<div ng-class="[red, bold, italic]">Ng-class array</div>
+                <div ng-class="[red, bold, italic]">Ng-class array</div>
                 <div ng-class="cusClass">Hello angular.js</div>
+                <div ng-class="m.cssObj[m.selected]">use Object Test</div>
             </div>
         </div>
         <hr>
@@ -52,7 +53,13 @@
 <script type="text/javascript">
 angular.module("sampleApp", [])
     .controller('mainCtrl', ['$scope', function($scope) {
-
+        var self = this;
+        self.cssObj = {
+		    useRed:'red',
+		    useBold:'bold',
+		    useItalic:'italic'
+        };
+        self.selected = 'useItalic'
     }]);
 </script>
 
