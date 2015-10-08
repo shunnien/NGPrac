@@ -28,20 +28,20 @@
     </style>
 </head>
 
-<body ng-app>
+<body ng-app="sampleApp">
     <div class="container">
-        <div ng-controller="mainCtrl">
-            <div class="alert alert-dismissible alert-warning">
-                <h4>Introduction</h4>
-                <pre>
+        <div class="alert alert-dismissible alert-warning">
+            <h4>Introduction</h4>
+            <pre>
             	 &lt;div class="well col-xs-12" ng-init="cusClass='red';"&gt;
             	 	&lt;div class="{{ cusClass }}"&gt;Hello angular.js&lt;/div&gt;
             	 &lt;/div&gt;
                 </pre>
-                <p>當瀏覽器在載入時就會想套用 class，但除了在載入的第一時間是找不到正確的 class 內容之外，同時也無法通過 W3C 的驗證。所以不建議用這樣帶有污染 class 的方式來使用，而建議改用 ng-class 的宣告式語法(Directives Syntax)方式。</p>
-            </div>
+            <p>當瀏覽器在載入時就會想套用 class，但除了在載入的第一時間是找不到正確的 class 內容之外，同時也無法通過 W3C 的驗證。所以不建議用這樣帶有污染 class 的方式來使用，而建議改用 ng-class 的宣告式語法(Directives Syntax)方式。</p>
+        </div>
+        <div ng-controller="mainCtrl">
             <div class="well col-xs-12" ng-init="cusClass='red';">
-                <div class="{{ cusClass }}">Hello angular.js</div>
+                <div ng-class="cusClass">Hello angular.js</div>
             </div>
         </div>
         <hr>
@@ -49,6 +49,10 @@
     </div>
 </body>
 <script type="text/javascript">
+angular.module("sampleApp", [])
+    .controller('mainCtrl', ['$scope', function($scope) {
+
+    }]);
 </script>
 
 </html>
