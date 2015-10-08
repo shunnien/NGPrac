@@ -16,15 +16,41 @@
     </style>
 </head>
 
-<body ng-app>
+<body ng-app="sampleApp">
     <div class="container">
-        <div ng-controller="mainCtrl">
+        <div ng-controller="mainCtrl as m">
+            <div class="alert alert-dismissible alert-warning">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <h4>說明!</h4>
+                <p>ng-if 是會動態增減元素</p>
+            </div>
+            <div class="well col-xs-12">
+                <label>
+                    <input type="checkbox" ng-model="checked">勾選?</input>
+                </label>
+                <div class="alert" ng-show="checked">
+                    <strong>use ng-show!!</strong>
+                </div>
+                <div class="alert alert-success" ng-if="checked">
+                    <strong>user ng-if=checked</strong>
+                </div>
+                <div class="alert alert-info" ng-if="m.show();">
+                    <strong>使用 ng-if=show();</strong>
+                </div>
+            </div>
         </div>
         <hr>
         <a href="index.html">Return Index</a>
     </div>
 </body>
 <script type="text/javascript">
+angular.module("sampleApp", [])
+    .controller('mainCtrl', ['$scope', function($scope) {
+    	var self = this;
+    	self.show = function(){
+    		return $scope.checked;
+    	};
+    }]);
 </script>
 
 </html>
