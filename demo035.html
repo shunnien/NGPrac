@@ -13,12 +13,23 @@
     .container {
         margin-top: 20px;
     }
+    
+    input[type="text"].myFocus {
+        background-color: yellow;
+    }
+    
+    input[type="text"].myBlur {
+        background-color: red;
+    }
     </style>
 </head>
 
 <body ng-app="sampleApp">
     <div class="container">
         <div ng-controller="mainCtrl">
+            <div class="well" ng-init="focus=false;blur=false;">
+                <input type="text" ng-class="{ myFocus: focus, myBlur: blur }" ng-focus="focus=true;blur=false" ng-blur="blur=true;focus=false;">
+            </div>
         </div>
         <hr>
         <a href="index.html">Return Index</a>
@@ -27,7 +38,6 @@
 <script type="text/javascript">
 angular.module('sampleApp', [])
     .controller('mainCtrl', ['$scope', function($scope) {
-
     }]);
 </script>
 
