@@ -18,7 +18,17 @@
 
 <body ng-app="sampleApp">
     <div class="container">
-        <div ng-controller="mainCtrl">
+        <p class="text-primary">一般在輸入方塊中按下 Enter 鍵並不會有什麼特別的反應，不過若這輸入方塊是在表單中，且表單有 action 屬性的話，則會觸發表單的送出(submit)事件</p>
+        <p class="text-danger">使用 AngularJS 所提供的 ng-submit時，表單不能有 action 屬性才行，不然表單一樣會直接被送出</p>
+        <p><a href="http://www.w3schools.com/angular/angular_expressions.asp">參考資料連結</a></p>
+        <div ng-controller="mainCtrl ">
+            <form class="well" ng-submit="submit()">
+                <label>請輸入你會的技能:</label>
+                <input type="text" ng-model="skill" name="skill" />
+                <input type="submit" id="submit" value="加入" class="btn btn-info" />
+                <div ng-bind="op()"></div>
+                <div>技能 = {{skills}}</div>
+            </form>
         </div>
         <hr>
         <a href="index.html">Return Index</a>
@@ -27,7 +37,17 @@
 <script type="text/javascript">
 angular.module("sampleApp", [])
     .controller('mainCtrl', ['$scope', function($scope) {
-
+        $scope.skills = [];
+        $scope.skill = '';
+        $scope.submit = function() {
+            if (!!$scope.skill) {
+                $scope.skills.push($scope.skill);
+            }
+            $scope.skill = '';
+        };
+        $scope.op = function() {
+        	return $scope.skills.toString();
+        };
     }]);
 </script>
 
