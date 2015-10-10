@@ -18,7 +18,14 @@
 
 <body ng-app="sampleApp">
     <div class="container">
+        <p class="text-info">不希望讓瀏覽者看到{{ expression }}這樣的內容，那麼可以改用 ng-bind 的方式來取代原本使用 {{ expression }} 的方式</p>
         <div ng-controller="mainCtrl">
+            <div class="well">
+                <label>Name:</label>
+                <input type="text" ng-model="name" placeholder="Enter a name here">
+                <hr>
+                <h1>Hello <span ng-bind="name || 'AngularJS'">AngularJS</span>!!</h1>
+            </div>
         </div>
         <hr>
         <a href="index.html">Return Index</a>
