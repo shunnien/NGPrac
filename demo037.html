@@ -19,6 +19,20 @@
 <body ng-app="sampleApp">
     <div class="container">
         <div ng-controller="mainCtrl">
+            <div class="well">
+                <p>透過 .config(configFn) 來進行服務的設定，而想要自訂模板符號，需要的是 $interpolateProvider
+                    <br> .startSymbol(value) 是用來指定起始符號；而 .endSymbol(value) 是用來指定結尾符號的
+                </p>
+                <pre>angular.module('sampleApp', [])
+    .config(['$interpolateProvider',function($interpolateProvider) {
+        $interpolateProvider.startSymbol('<%');
+        $interpolateProvider.endSymbol('%>');
+    }]);</pre>
+                <label>Name:</label>
+                <input type="text" ng-model="name" placeholder="Enter a name here">
+                <hr>
+                <h1>Hello <% name || "AngularJS" %>!!</h1>
+            </div>
         </div>
         <hr>
         <a href="index.html">Return Index</a>
@@ -26,9 +40,11 @@
 </body>
 <script type="text/javascript">
 angular.module('sampleApp', [])
-    .controller('mainCtrl', ['$scope', function($scope) {
-
-    }]);
+    .config(['$interpolateProvider',function($interpolateProvider) {
+        $interpolateProvider.startSymbol('<%');
+        $interpolateProvider.endSymbol('%>');
+    }])
+    .controller('mainCtrl', ['$scope', function($scope) {}]);
 </script>
 
 </html>
